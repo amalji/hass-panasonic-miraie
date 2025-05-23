@@ -13,9 +13,9 @@ This integration allows you to control your Panasonic MirAIe air conditioners th
 - Control swing mode (Off, Vertical, Horizontal, Both)
 - Monitor current room temperature
 - View and control additional features:
-  - NanoeTM X (On/Off)
-  - Powerful mode (On/Off)
-  - Economy mode (On/Off)
+  - NanoeTM X (On/Off) - controllable via preset modes and service
+  - Powerful mode (On/Off) - controllable via preset modes and service
+  - Economy mode (On/Off) - controllable via preset modes and service
 - Monitor filter status:
   - Dust level
   - Cleaning required indicator
@@ -126,13 +126,75 @@ Each MirAIe device will have the following attributes:
 - `hvac_mode`: The current operation mode (off, auto, cool, heat, dry, fan_only)
 - `fan_mode`: The current fan speed (auto, low, medium, high, quiet)
 - `swing_mode`: The current swing setting (off, vertical, horizontal, both)
-- `nanoe_x`: Status of NanoeTM X feature (on/off)
+- `preset_mode`: The current preset mode (None, Nanoe G, Powerful, Economy, Nanoe + Powerful, Nanoe + Economy)
+- `nanoe_g`: Status of NanoeTM X feature (on/off)
 - `powerful_mode`: Status of Powerful mode (on/off)
 - `economy_mode`: Status of Economy mode (on/off)
 - `filter_dust_level`: Current dust level in the filter
 - `filter_cleaning_required`: Indicator if filter cleaning is required
 - `errors`: Any current device errors
 - `warnings`: Any current device warnings
+
+### Preset Modes
+
+You can control the special features through preset modes in the climate entity UI:
+
+- **None**: All special features disabled
+- **Nanoe G**: Only NanoeTM X feature enabled - improves air quality
+- **Powerful**: Only Powerful mode enabled - maximum cooling/heating performance
+- **Economy**: Only Economy mode enabled - energy-saving operation
+- **Nanoe + Powerful**: Both NanoeTM X and Powerful mode enabled
+- **Nanoe + Economy**: Both NanoeTM X and Economy mode enabled
+
+Each preset mode includes an appropriate icon in the UI for easy identification.
+
+Note: Powerful mode and Economy mode cannot be active simultaneously, so attempting to set both will prioritize Powerful mode.
+
+### Services
+
+The integration also provides the following services for direct control:
+
+#### Set NanoeTM X Feature
+
+```yaml
+service: panasonic_miraie.set_nanoe
+target:
+  entity_id: climate.your_ac_name
+data:
+  state: true  # or false to turn off
+```
+
+#### Set Powerful Mode
+
+```yaml
+service: panasonic_miraie.set_powerful_mode
+target:
+  entity_id: climate.your_ac_name
+data:
+  state: true  # or false to turn off
+```
+
+#### Set Economy Mode
+
+```yaml
+service: panasonic_miraie.set_economy_mode
+target:
+  entity_id: climate.your_ac_name
+data:
+  state: true  # or false to turn off
+```
+
+You can also target multiple entities:
+
+```yaml
+service: panasonic_miraie.set_nanoe
+target:
+  entity_id:
+    - climate.bedroom_ac
+    - climate.living_room_ac
+data:
+  state: true
+```
 
 ## Troubleshooting
 

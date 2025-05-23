@@ -242,15 +242,13 @@ class MQTTHandler:
             message: The incoming MQTT message.
 
         """
-        _LOGGER.debug("Received message on topic %s", message.topic)
         try:
             payload_dict = json.loads(message.payload.decode())
             topic_str = str(message.topic)
+
             if topic_str in self.subscriptions:
                 callback = self.subscriptions[topic_str]
                 await self.hass.async_add_job(callback, topic_str, payload_dict)
-            else:
-                _LOGGER.debug("Received message on unsubscribed topic: %s", topic_str)
         except json.JSONDecodeError:
             _LOGGER.error("Failed to decode MQTT message: %s", message.payload)
         except Exception as e:
