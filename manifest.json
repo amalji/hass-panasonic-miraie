@@ -14,5 +14,5 @@
     "voluptuous>=0.15.2"
   ],
   "platforms": ["climate", "sensor"],
-  "version": "0.7.1"
+  "version": "0.7.2"
 }

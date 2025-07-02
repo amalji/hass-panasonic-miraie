@@ -27,7 +27,7 @@ class PanasonicTemperatureSensor(SensorEntity):
 
     @property
     def native_value(self):
-        return self._device.current_temperature  # Adjust this based on the actual attribute from your device object
+        return float(self._device["rmtmp"]) if self._device.get("rmtmp") is not None else None
 
     @property
     def device_info(self):
